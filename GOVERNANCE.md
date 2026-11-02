@@ -35,7 +35,18 @@ Not in scope: any tool, platform or product; model-data schemas (IFC does that);
 
 ## Licence, name and mark
 
-Definitions, schemas, crosswalks and edition records are licensed under the Apache License, Version 2.0 (see `LICENSE` and `NOTICE`). The name "DesConOps" and any mark are the steward's; the policy for their use by implementers is stated by the steward before the first release and recorded here.
+Definitions, schemas, crosswalks and edition records are licensed under the Apache License, Version 2.0 (see `LICENSE` and `NOTICE`). The name "DesConOps" and the mark are held by the steward of record and transfer with stewardship (see Transfer of stewardship).
+
+Use of the name and the mark, stated by the steward on 2026-11-02:
+
+1. **Describing conformance is free.** Anyone may say that a tool, a project, a contract or a process implements DesConOps, or implements named steps, gates, records or metrics of it, by referring to the edition they implement (for example "implements DesConOps edition 1.0, steps 6 to 9"). No permission, fee or registration is needed.
+2. **The name may not imply endorsement.** No one may use the name or the mark to state or suggest that the steward, the working group or the standard endorses, certifies, approves or ranks a product, a firm or a project. There is no certification programme; a statement such as "DesConOps-certified" is false until the steward publishes one and says so here.
+3. **The name is not a product name.** The name may not be used as, or as part of, the name of a product, a service, a company, a domain or a mark, and may not be combined with another mark in a lock-up, without the steward's written agreement.
+4. **The definitions are not to be altered under the name.** A modified set of definitions, gates or metrics may be published under the Apache licence, but not under the name DesConOps or a confusingly similar one; it states what it derives from and what it changed.
+5. **Editions are cited by number.** A claim of conformance names the edition it rests on. Edition records are served at a fixed path and do not change after publication, so a citation stays checkable.
+6. **The steward keeps the registration.** Registration of the mark, where it is registered, is held in the steward's name and is assigned to the incoming steward on transfer.
+
+Questions about a use this policy does not cover go to the steward through this repository's issues.
 
 ## Transfer of stewardship
 
