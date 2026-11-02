@@ -1,0 +1,614 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://schemas.desconops.org/standard/production-system.schema.json",
+  "version": "0.1.0",
+  "title": "DesConOps production system",
+  "description": "The shape of the DesConOps standard at one edition: the loops a building passes through, the releases that join them, the steps with what crosses each gate, what the step emits and who holds the gate; the contract every step follows; the design rules; the metrics; the crosswalk rows that name the published standards implementing each step and where each stands; the gaps the working group starts on; and the roles with their first step. An edition record is one instance of this schema.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "$id",
+    "standard",
+    "loops",
+    "releases",
+    "steps",
+    "contract",
+    "designRules",
+    "metrics",
+    "crosswalk",
+    "gaps"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "const": "https://schemas.desconops.org/standard/production-system.schema.json"
+    },
+    "$id": {
+      "type": "string",
+      "format": "uri",
+      "description": "The served URL of this edition record."
+    },
+    "standard": {
+      "$ref": "#/definitions/standard"
+    },
+    "loops": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/loop"
+      }
+    },
+    "releases": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/release"
+      }
+    },
+    "steps": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/step"
+      },
+      "description": "In order. Read the step numbers as a project's life."
+    },
+    "contract": {
+      "$ref": "#/definitions/contract"
+    },
+    "designRules": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/designRule"
+      }
+    },
+    "metrics": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/metric"
+      }
+    },
+    "crosswalk": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/crosswalkRow"
+      },
+      "description": "What already implements each step, what the standard asks of it, and where it stands at this edition."
+    },
+    "gaps": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/gap"
+      }
+    },
+    "roles": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/role"
+      }
+    },
+    "translation": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/translationRow"
+      },
+      "description": "How the practices of software delivery map onto the production system."
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/source"
+      }
+    }
+  },
+  "definitions": {
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
+    },
+    "standard": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "edition",
+        "publisher",
+        "license"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "subtitle": {
+          "type": "string"
+        },
+        "edition": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "number",
+            "date"
+          ],
+          "properties": {
+            "number": {
+              "type": "string",
+              "pattern": "^[0-9]+\\.[0-9]+$"
+            },
+            "date": {
+              "type": "string",
+              "format": "date"
+            },
+            "changes": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "publisher": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The steward of record at this edition."
+        },
+        "license": {
+          "type": "string",
+          "minLength": 1,
+          "description": "SPDX identifier of the licence on the definitions, schemas and crosswalks."
+        },
+        "paper": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "title",
+            "url"
+          ],
+          "properties": {
+            "title": {
+              "type": "string"
+            },
+            "url": {
+              "type": "string",
+              "format": "uri"
+            }
+          },
+          "description": "The position paper this edition derives from."
+        }
+      }
+    },
+    "loop": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "loopId",
+        "name",
+        "order"
+      ],
+      "properties": {
+        "loopId": {
+          "$ref": "#/definitions/slug"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "order": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "release": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "releaseId",
+        "name",
+        "order",
+        "fromLoop",
+        "toLoop"
+      ],
+      "properties": {
+        "releaseId": {
+          "$ref": "#/definitions/slug"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "order": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "fromLoop": {
+          "$ref": "#/definitions/slug"
+        },
+        "toLoop": {
+          "$ref": "#/definitions/slug"
+        },
+        "description": {
+          "type": "string",
+          "description": "What crosses between firms at this release."
+        }
+      }
+    },
+    "step": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stepId",
+        "number",
+        "name",
+        "crosses",
+        "emits",
+        "gateHeldBy"
+      ],
+      "properties": {
+        "stepId": {
+          "$ref": "#/definitions/slug"
+        },
+        "number": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "loopRef": {
+          "$ref": "#/definitions/slug",
+          "description": "The loop this step iterates in. A release step carries releaseRef instead."
+        },
+        "releaseRef": {
+          "$ref": "#/definitions/slug",
+          "description": "The release this step is. A release step is where the record crosses between firms."
+        },
+        "crosses": {
+          "type": "string",
+          "minLength": 1,
+          "description": "What crosses the gate."
+        },
+        "emits": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The record the step emits, with its provenance."
+        },
+        "gateHeldBy": {
+          "$ref": "#/definitions/gateHolder"
+        }
+      },
+      "oneOf": [
+        {
+          "required": [
+            "loopRef"
+          ],
+          "not": {
+            "required": [
+              "releaseRef"
+            ]
+          }
+        },
+        {
+          "required": [
+            "releaseRef"
+          ],
+          "not": {
+            "required": [
+              "loopRef"
+            ]
+          }
+        }
+      ]
+    },
+    "gateHolder": {
+      "type": "string",
+      "enum": [
+        "owner",
+        "design-lead",
+        "coordinator",
+        "engineer-of-record",
+        "project-manager",
+        "superintendent",
+        "inspector",
+        "operator"
+      ],
+      "description": "The party with authority over the gate."
+    },
+    "contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "input",
+        "check",
+        "gate",
+        "record"
+      ],
+      "properties": {
+        "input": {
+          "type": "string",
+          "minLength": 1
+        },
+        "check": {
+          "type": "string",
+          "minLength": 1
+        },
+        "gate": {
+          "type": "string",
+          "minLength": 1
+        },
+        "record": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "description": "The one contract every step follows."
+    },
+    "designRule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ruleId",
+        "difference",
+        "rule"
+      ],
+      "properties": {
+        "ruleId": {
+          "$ref": "#/definitions/slug"
+        },
+        "difference": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The difference between code and buildings the rule answers."
+        },
+        "rule": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "metric": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "metricId",
+        "name",
+        "definition",
+        "unit",
+        "translatesFrom"
+      ],
+      "properties": {
+        "metricId": {
+          "$ref": "#/definitions/slug"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "definition": {
+          "type": "string",
+          "minLength": 1,
+          "description": "What counts, stated so two implementations would count the same."
+        },
+        "unit": {
+          "type": "string",
+          "enum": [
+            "events-per-project-day",
+            "days",
+            "fraction"
+          ]
+        },
+        "translatesFrom": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The software delivery metric this one translates."
+        },
+        "measuredAt": {
+          "type": "string",
+          "description": "Where the measurement is taken, for example at the gate."
+        }
+      }
+    },
+    "crosswalkRow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rowId",
+        "stepRefs",
+        "exists",
+        "asks",
+        "status"
+      ],
+      "properties": {
+        "rowId": {
+          "$ref": "#/definitions/slug"
+        },
+        "stepRefs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/definitions/slug"
+          }
+        },
+        "exists": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/definitions/implementingStandard"
+          },
+          "description": "What the standards community already ships for these steps."
+        },
+        "asks": {
+          "type": "string",
+          "minLength": 1,
+          "description": "What the production system asks of it."
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "in-production-open",
+            "partial-vendor-specific",
+            "missing"
+          ]
+        },
+        "statusNote": {
+          "type": "string",
+          "description": "The status in the edition's own words, for example: missing as a shared gate."
+        },
+        "gapRef": {
+          "$ref": "#/definitions/slug"
+        }
+      }
+    },
+    "implementingStandard": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "body"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The standard by name, for example IDS, IFC, BCF, bSDD, ETIM, COBie, ISO 19650."
+        },
+        "body": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Who publishes it."
+        },
+        "version": {
+          "type": "string"
+        },
+        "since": {
+          "type": "string",
+          "description": "When it reached the state named, as a year or a date."
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    },
+    "gap": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "gapId",
+        "name",
+        "stepRefs"
+      ],
+      "properties": {
+        "gapId": {
+          "$ref": "#/definitions/slug"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "stepRefs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/definitions/slug"
+          }
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "role": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "roleId",
+        "name",
+        "today",
+        "withSharedRecord",
+        "proof"
+      ],
+      "properties": {
+        "roleId": {
+          "$ref": "#/definitions/slug"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "today": {
+          "type": "string",
+          "minLength": 1
+        },
+        "withSharedRecord": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The first step for this role."
+        },
+        "proof": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The measurement that would show the step worked."
+        },
+        "stepRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/slug"
+          }
+        }
+      }
+    },
+    "translationRow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "softwarePractice",
+        "equivalent"
+      ],
+      "properties": {
+        "softwarePractice": {
+          "type": "string",
+          "minLength": 1
+        },
+        "equivalent": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sourceId",
+        "title"
+      ],
+      "properties": {
+        "sourceId": {
+          "$ref": "#/definitions/slug"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "publisher": {
+          "type": "string"
+        },
+        "year": {
+          "type": "integer"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        }
+      }
+    }
+  }
+}

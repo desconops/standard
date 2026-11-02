@@ -1,0 +1,25 @@
+{
+  "name": "@desconops/standard",
+  "version": "0.1.0",
+  "description": "DesConOps: an open production standard for buildings. JSON Schemas and edition records served at https://schemas.desconops.org/.",
+  "license": "Apache-2.0",
+  "homepage": "https://schemas.desconops.org/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/desconops/standard.git"
+  },
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "check": "node scripts/check.mjs",
+    "site": "node scripts/build-site.mjs",
+    "served": "node scripts/check-served.mjs"
+  },
+  "devDependencies": {
+    "ajv": "8.17.1",
+    "ajv-formats": "3.0.1"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

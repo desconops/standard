@@ -1,0 +1,9 @@
+{
+  "description": "Each example and edition record, and the schema it validates with.",
+  "examples": [
+    {
+      "example": "editions/1.0/production-system.json",
+      "schema": "standard/production-system.schema.json"
+    }
+  ]
+}
