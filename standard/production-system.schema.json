@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://schemas.desconops.org/standard/production-system.schema.json",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "title": "DesConOps production system",
   "description": "The shape of the DesConOps standard at one edition: the loops a building passes through, the releases that join them, the steps with what crosses each gate, what the step emits and who holds the gate; the contract every step follows; the design rules; the metrics; the crosswalk rows that name the published standards implementing each step and where each stands; the gaps the working group starts on; and the roles with their first step. An edition record is one instance of this schema.",
   "type": "object",
@@ -347,9 +347,14 @@
         "record": {
           "type": "string",
           "minLength": 1
+        },
+        "paid": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Added in 0.2.0 (edition 1.1): the gate pass is the event work is paid on. Optional, so edition 1.0 records still validate."
         }
       },
-      "description": "The one contract every step follows."
+      "description": "The one contract every step follows. Since edition 1.1 it may state a fifth line: what the gate pass is worth, to whom."
     },
     "designRule": {
       "type": "object",

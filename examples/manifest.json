@@ -4,6 +4,10 @@
     {
       "example": "editions/1.0/production-system.json",
       "schema": "standard/production-system.schema.json"
+    },
+    {
+      "example": "editions/1.1/production-system.json",
+      "schema": "standard/production-system.schema.json"
     }
   ]
 }

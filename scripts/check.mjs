@@ -94,7 +94,7 @@ const FORBIDDEN = [
   [/\bd-\d{4}-\d\d-\d\d-[a-z0-9-]+/, 'an internal deliverable or decision id'],
   [/\b(?:FU|RULE|DEC)-[A-Z0-9]+(?:-[A-Z0-9]+)*/, 'an internal follow-up, rule or decision id'],
   [/\bDISPATCH-/, 'an internal work order'],
-  [/schemas\.luh\.tech|schemas\.ectropy\.ai/, 'another publisher\'s schema domain (the standard references other standards by name, never by $ref)'],
+  [/\bschemas\.(?!desconops\.org\b)[a-z0-9-]+(?:\.[a-z0-9-]+)+/, 'another publisher\'s schema domain (the standard references other standards by name, never by $ref)'],
   [/\b[\w./-]+\.(?:py|tsx?|mjs|msg)\b/, 'a code path'],
 ];
 const FORBIDDEN_KEYS = new Set(['x-authoring', '_metadata']);
