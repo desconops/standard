@@ -2,7 +2,8 @@
 
 ## Unreleased
 
-_Nothing yet._
+- **`standard/production-system` 0.2.0.** The contract may state a fifth line, `paid`: what the gate pass is worth, to whom. Additive; edition 1.0 records still validate.
+- **New: `editions/1.1/production-system.json`.** Edition 1.1, November 2026: the contract's fifth line, "the gate pass is the event work is paid on", and a logistics row in the crosswalk (GS1 EPCIS 2.0, CBV 2.0 and the GS1 identification keys at the plan, build and capture steps; partial, vendor-specific on the jobsite today). Nothing else changes from edition 1.0.
 
 ## 0.1.0 (2026-11-02)
 

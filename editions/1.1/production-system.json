@@ -1,0 +1,586 @@
+{
+  "$schema": "https://schemas.desconops.org/standard/production-system.schema.json",
+  "$id": "https://schemas.desconops.org/editions/1.1/production-system.json",
+  "standard": {
+    "name": "DesConOps",
+    "subtitle": "Design, construct and operate as one production system, and what ten verified changes a day would take",
+    "edition": {
+      "number": "1.1",
+      "date": "2026-11-09",
+      "changes": [
+        "The contract gains a fifth line: the gate pass is the event work is paid on. A verified pass at a step's gate is what a party is paid for, at a rate published before the work and pinned to the gate pass; rework is not paid twice.",
+        "The crosswalk gains a logistics row: material, equipment and labour move across the site as events on one spine, at the plan, build and capture steps, with GS1 EPCIS 2.0 and CBV 2.0 as what already exists."
+      ]
+    },
+    "publisher": "LuhTech Holdings",
+    "license": "Apache-2.0",
+    "paper": {
+      "title": "DesConOps: Design, construct and operate as one production system, and what ten verified changes a day would take. First edition, October 2026.",
+      "url": "https://luh.tech/papers/desconops/"
+    }
+  },
+  "loops": [
+    {
+      "loopId": "design",
+      "name": "Design",
+      "order": 1,
+      "description": "Model, test, coordinate, issue."
+    },
+    {
+      "loopId": "construct",
+      "name": "Construct",
+      "order": 2,
+      "description": "Plan, build, capture, verify."
+    },
+    {
+      "loopId": "operate",
+      "name": "Operate",
+      "order": 3,
+      "description": "Run, monitor, maintain, learn."
+    }
+  ],
+  "releases": [
+    {
+      "releaseId": "issue-for-construction",
+      "name": "Release 1: issue for construction",
+      "order": 1,
+      "fromLoop": "design",
+      "toLoop": "construct",
+      "description": "Model, requirements and product keys cross together, before anything is fabricated or poured."
+    },
+    {
+      "releaseId": "handover",
+      "name": "Release 2: handover",
+      "order": 2,
+      "fromLoop": "construct",
+      "toLoop": "operate",
+      "description": "The asset record crosses as data, before the operator inherits the building."
+    }
+  ],
+  "steps": [
+    {
+      "stepId": "requirement",
+      "number": 1,
+      "name": "Requirement",
+      "loopRef": "design",
+      "crosses": "Owner need stated as checkable rules.",
+      "emits": "Information requirement.",
+      "gateHeldBy": "owner"
+    },
+    {
+      "stepId": "model",
+      "number": 2,
+      "name": "Model",
+      "loopRef": "design",
+      "crosses": "Geometry and attributes keyed to place.",
+      "emits": "Model schema, requirement.",
+      "gateHeldBy": "design-lead"
+    },
+    {
+      "stepId": "test",
+      "number": 3,
+      "name": "Test",
+      "loopRef": "design",
+      "crosses": "Model checked against the requirement.",
+      "emits": "Pass or fail, per rule.",
+      "gateHeldBy": "design-lead"
+    },
+    {
+      "stepId": "coordinate",
+      "number": 4,
+      "name": "Coordinate",
+      "loopRef": "design",
+      "crosses": "Issues exchanged and closed between tools.",
+      "emits": "Issue closed against the record.",
+      "gateHeldBy": "coordinator"
+    },
+    {
+      "stepId": "issue-for-construction",
+      "number": 5,
+      "name": "Issue for construction",
+      "releaseRef": "issue-for-construction",
+      "crosses": "Model, requirements and product keys cross together.",
+      "emits": "Release gate.",
+      "gateHeldBy": "engineer-of-record"
+    },
+    {
+      "stepId": "plan",
+      "number": 6,
+      "name": "Plan",
+      "loopRef": "construct",
+      "crosses": "Work packages keyed to place and product.",
+      "emits": "Package schema.",
+      "gateHeldBy": "project-manager"
+    },
+    {
+      "stepId": "build",
+      "number": 7,
+      "name": "Build",
+      "loopRef": "construct",
+      "crosses": "Installed work recorded against the package.",
+      "emits": "Field capture with evidence.",
+      "gateHeldBy": "superintendent"
+    },
+    {
+      "stepId": "verify",
+      "number": 8,
+      "name": "Verify",
+      "loopRef": "construct",
+      "crosses": "Installed quantity checked before payment.",
+      "emits": "Inspection record.",
+      "gateHeldBy": "inspector"
+    },
+    {
+      "stepId": "capture",
+      "number": 9,
+      "name": "Capture",
+      "loopRef": "construct",
+      "crosses": "Change, RFI and decision bound to place.",
+      "emits": "Decision record with authority.",
+      "gateHeldBy": "project-manager"
+    },
+    {
+      "stepId": "handover",
+      "number": 10,
+      "name": "Handover",
+      "releaseRef": "handover",
+      "crosses": "Asset record crosses as data, not binders.",
+      "emits": "Handover gate.",
+      "gateHeldBy": "owner"
+    },
+    {
+      "stepId": "run-and-monitor",
+      "number": 11,
+      "name": "Run and monitor",
+      "loopRef": "operate",
+      "crosses": "Telemetry keyed to the same places.",
+      "emits": "Operating record.",
+      "gateHeldBy": "operator"
+    },
+    {
+      "stepId": "learn",
+      "number": 12,
+      "name": "Learn",
+      "loopRef": "operate",
+      "crosses": "Operating data fed back to the next requirement.",
+      "emits": "Lessons as checkable rules.",
+      "gateHeldBy": "owner"
+    }
+  ],
+  "contract": {
+    "input": "Each step takes a keyed input.",
+    "check": "It is checked against a published requirement.",
+    "gate": "It passes a gate held by someone with authority.",
+    "record": "It emits a record with its provenance.",
+    "paid": "The gate pass is the event work is paid on."
+  },
+  "designRules": [
+    {
+      "ruleId": "gate-before-the-irreversible-step",
+      "difference": "A pour has no rollback.",
+      "rule": "The gate goes before the irreversible step, not after it."
+    },
+    {
+      "ruleId": "standardize-the-interface",
+      "difference": "Every project has many owners.",
+      "rule": "Standardize the interface, not the tool. Each firm keeps its own software."
+    },
+    {
+      "ruleId": "feedback-crosses-projects",
+      "difference": "Cycles are long.",
+      "rule": "Feedback crosses projects, not sprints, and the learning unit is the portfolio."
+    },
+    {
+      "ruleId": "every-observation-carries-evidence",
+      "difference": "The site is physically uncertain.",
+      "rule": "Every observation carries its evidence."
+    }
+  ],
+  "metrics": [
+    {
+      "metricId": "verified-handoffs-a-day",
+      "name": "Verified handoffs a day",
+      "definition": "Changes that crossed an interface and passed the gate with evidence, per project per day.",
+      "unit": "events-per-project-day",
+      "translatesFrom": "Deployment frequency",
+      "measuredAt": "At the gate."
+    },
+    {
+      "metricId": "design-change-to-verified-install",
+      "name": "Design change to verified install",
+      "definition": "Calendar days from a decision recorded in design to the installed, inspected result.",
+      "unit": "days",
+      "translatesFrom": "Lead time for change",
+      "measuredAt": "At the gate."
+    },
+    {
+      "metricId": "rework-per-verified-install",
+      "name": "Rework per verified install",
+      "definition": "Share of verified installs later reworked, by cause.",
+      "unit": "fraction",
+      "translatesFrom": "Change failure rate",
+      "measuredAt": "At the gate."
+    },
+    {
+      "metricId": "rfi-cycle-time",
+      "name": "RFI cycle time",
+      "definition": "Days from question to answer with authority.",
+      "unit": "days",
+      "translatesFrom": "Time to restore",
+      "measuredAt": "At the gate."
+    }
+  ],
+  "crosswalk": [
+    {
+      "rowId": "requirement",
+      "stepRefs": [
+        "requirement"
+      ],
+      "exists": [
+        {
+          "name": "IDS",
+          "body": "buildingSMART International",
+          "version": "1.0",
+          "since": "2024-06",
+          "note": "Machine-checkable information requirements."
+        }
+      ],
+      "asks": "Owner requirements as IDS, with product class and cost on the same key.",
+      "status": "in-production-open",
+      "statusNote": "In production, open."
+    },
+    {
+      "rowId": "model-and-test",
+      "stepRefs": [
+        "model",
+        "test"
+      ],
+      "exists": [
+        {
+          "name": "IFC",
+          "body": "buildingSMART International",
+          "version": "ISO 16739-1",
+          "note": "Open model data."
+        },
+        {
+          "name": "IDS validation",
+          "body": "buildingSMART International"
+        },
+        {
+          "name": "bSDD",
+          "body": "buildingSMART International",
+          "note": "The shared data dictionary."
+        }
+      ],
+      "asks": "Test on every issue, not at milestones.",
+      "status": "in-production-open",
+      "statusNote": "In production, open."
+    },
+    {
+      "rowId": "coordinate",
+      "stepRefs": [
+        "coordinate"
+      ],
+      "exists": [
+        {
+          "name": "BCF",
+          "body": "buildingSMART International",
+          "since": "2009",
+          "note": "Issue exchange between tools; BCF 4.0 in work."
+        }
+      ],
+      "asks": "Issues closed against the shared record, not inside one tool.",
+      "status": "in-production-open",
+      "statusNote": "In production, open."
+    },
+    {
+      "rowId": "issue-for-construction",
+      "stepRefs": [
+        "issue-for-construction"
+      ],
+      "exists": [
+        {
+          "name": "ISO 19650",
+          "body": "ISO",
+          "note": "Information delivery milestones."
+        }
+      ],
+      "asks": "A release gate that carries model, requirement and product key together.",
+      "status": "missing",
+      "statusNote": "Missing as a shared gate.",
+      "gapRef": "shared-release-gate"
+    },
+    {
+      "rowId": "plan-and-build",
+      "stepRefs": [
+        "plan",
+        "build"
+      ],
+      "exists": [
+        {
+          "name": "ETIM",
+          "body": "ETIM International",
+          "since": "2025",
+          "note": "Product classes with geometry, published through bSDD."
+        },
+        {
+          "name": "Advanced work packaging",
+          "body": "Industry practice"
+        }
+      ],
+      "asks": "Specification section joined to product class, openly.",
+      "status": "missing",
+      "statusNote": "Missing: the specification-to-class crosswalk.",
+      "gapRef": "spec-to-product-crosswalk"
+    },
+    {
+      "rowId": "verify-and-capture",
+      "stepRefs": [
+        "verify",
+        "capture"
+      ],
+      "exists": [
+        {
+          "name": "Field capture with evidence",
+          "body": "Vendor-specific today"
+        },
+        {
+          "name": "Decision records with authority",
+          "body": "Vendor-specific today"
+        }
+      ],
+      "asks": "Verification and decision bound to place, in one record.",
+      "status": "partial-vendor-specific",
+      "statusNote": "Partial, vendor-specific today."
+    },
+    {
+      "rowId": "handover",
+      "stepRefs": [
+        "handover"
+      ],
+      "exists": [
+        {
+          "name": "COBie",
+          "body": "National Institute of Building Sciences"
+        },
+        {
+          "name": "IFC as asset information model",
+          "body": "buildingSMART International"
+        }
+      ],
+      "asks": "Handover as data, checked against the requirement from step 1.",
+      "status": "in-production-open",
+      "statusNote": "In production, open; rarely demanded."
+    },
+    {
+      "rowId": "run-and-learn",
+      "stepRefs": [
+        "run-and-monitor",
+        "learn"
+      ],
+      "exists": [
+        {
+          "name": "Open building-operations semantics",
+          "body": "Several bodies"
+        },
+        {
+          "name": "IoT interoperability work",
+          "body": "buildingSMART International"
+        }
+      ],
+      "asks": "Operating data keyed to the same places and fed back as rules.",
+      "status": "missing",
+      "statusNote": "Missing as a loop.",
+      "gapRef": "operate-to-design-loop"
+    },
+    {
+      "rowId": "logistics",
+      "stepRefs": [
+        "plan",
+        "build",
+        "capture"
+      ],
+      "exists": [
+        {
+          "name": "EPCIS 2.0",
+          "body": "GS1",
+          "version": "ISO/IEC 19987:2024",
+          "since": "2022",
+          "note": "Event capture and query for objects moving through a supply chain: what, when, where, why."
+        },
+        {
+          "name": "CBV 2.0",
+          "body": "GS1",
+          "version": "ISO/IEC 19988:2024",
+          "note": "The business steps, dispositions and location vocabulary those events use."
+        },
+        {
+          "name": "GS1 identification keys",
+          "body": "GS1",
+          "note": "SSCC, SGTIN, GRAI and GIAI name the logistic units, parts and assets the events are about."
+        }
+      ],
+      "asks": "Every movement of material, equipment and labour on the site as an event on one spine, bound to the place and the takt it serves, so delivery reliability, dwell, progress and pay are projections of the same record.",
+      "status": "partial-vendor-specific",
+      "statusNote": "Partial: the event standard is open and in production in supply chains; its use on the jobsite, bound to place and takt, is vendor-specific today."
+    }
+  ],
+  "gaps": [
+    {
+      "gapId": "shared-release-gate",
+      "name": "A shared release gate",
+      "stepRefs": [
+        "issue-for-construction"
+      ],
+      "description": "A release gate that carries model, requirement and product key together across the firms it joins."
+    },
+    {
+      "gapId": "spec-to-product-crosswalk",
+      "name": "The specification-to-product crosswalk",
+      "stepRefs": [
+        "plan",
+        "build"
+      ],
+      "description": "A published join from a specification section to the product classes that satisfy it."
+    },
+    {
+      "gapId": "operate-to-design-loop",
+      "name": "The operate-to-design loop",
+      "stepRefs": [
+        "run-and-monitor",
+        "learn"
+      ],
+      "description": "Operating data keyed to the same places and fed back to the next requirement as checkable rules."
+    }
+  ],
+  "roles": [
+    {
+      "roleId": "owners",
+      "name": "Owners",
+      "today": "Bear most of the loss and receive the record last.",
+      "withSharedRecord": "Requirements written once as checkable rules at the start of design. Every model, submittal and handover is tested against them, and the owner holds one record across every release, so nothing is re-keyed at handover.",
+      "proof": "Requirements met at handover without manual re-entry, and change orders traced back to the requirement they changed.",
+      "stepRefs": [
+        "requirement",
+        "handover"
+      ]
+    },
+    {
+      "roleId": "general-contractors",
+      "name": "General contractors",
+      "today": "Live at the handoff where everything upstream lands at once.",
+      "withSharedRecord": "RFIs answered from the record before they are written, and design changes delivered to the field as verified changes, with the decision and its authority attached.",
+      "proof": "RFI cycle time in hours, not days, and fewer RFIs per million dollars of work.",
+      "stepRefs": [
+        "capture",
+        "build"
+      ]
+    },
+    {
+      "roleId": "architects",
+      "name": "Architects",
+      "today": "Write the specification that every product decision depends on.",
+      "withSharedRecord": "Each specification section linked to the open product classes that satisfy it, so a submitted product is checked against the specification automatically.",
+      "proof": "First-pass submittal approval rates, and fewer substitution RFIs.",
+      "stepRefs": [
+        "plan"
+      ]
+    },
+    {
+      "roleId": "engineers",
+      "name": "Engineers",
+      "today": "Carry the coordination load inside the model.",
+      "withSharedRecord": "Every model issue checked against the information requirements, and every coordination issue closed against the shared record rather than inside one tool.",
+      "proof": "Clashes and missing information caught at issue, not discovered on site.",
+      "stepRefs": [
+        "test",
+        "coordinate"
+      ]
+    },
+    {
+      "roleId": "specialty-contractors-and-fabricators",
+      "name": "Specialty contractors and fabricators",
+      "today": "Turn the design into physical parts, and are the first to pay when the data is wrong.",
+      "withSharedRecord": "Product data that arrives already classified, and shop drawings, model and product class kept in one record from order to installation.",
+      "proof": "Fewer wrong-product orders, and less re-fabrication from late changes.",
+      "stepRefs": [
+        "plan",
+        "build"
+      ]
+    },
+    {
+      "roleId": "operators",
+      "name": "Operators",
+      "today": "Inherit the building and, today, a binder.",
+      "withSharedRecord": "The asset record delivered as live data at handover, and operating data fed back to the next design.",
+      "proof": "Time to a usable asset record after handover, and how often design decisions on the next project cite operating data from the last.",
+      "stepRefs": [
+        "handover",
+        "run-and-monitor",
+        "learn"
+      ]
+    }
+  ],
+  "translation": [
+    {
+      "softwarePractice": "Version control",
+      "equivalent": "One record, versioned per object."
+    },
+    {
+      "softwarePractice": "Tests on every change",
+      "equivalent": "Information requirements checked on every model issue."
+    },
+    {
+      "softwarePractice": "Code review",
+      "equivalent": "Issues exchanged between tools, then approval with authority."
+    },
+    {
+      "softwarePractice": "Release",
+      "equivalent": "Issue for construction; handover."
+    },
+    {
+      "softwarePractice": "Monitoring",
+      "equivalent": "Field capture and building telemetry."
+    },
+    {
+      "softwarePractice": "Postmortem",
+      "equivalent": "RFIs, rework and lessons fed back to design."
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "ids-1-0",
+      "title": "Information Delivery Specification (IDS) v1.0 is approved as a final standard",
+      "publisher": "buildingSMART International",
+      "year": 2024
+    },
+    {
+      "sourceId": "ifc-iso-16739-1",
+      "title": "Industry Foundation Classes (IFC), published as ISO 16739-1",
+      "publisher": "buildingSMART International"
+    },
+    {
+      "sourceId": "bcf",
+      "title": "BIM Collaboration Format (BCF), technical standard; development began in 2009",
+      "publisher": "buildingSMART International"
+    },
+    {
+      "sourceId": "etim-bsdd",
+      "title": "ETIM 10.0 now available in the buildingSMART Data Dictionary",
+      "publisher": "ETIM International",
+      "year": 2025
+    },
+    {
+      "sourceId": "iso-19650",
+      "title": "ISO 19650-1 and 19650-2:2018, organization and digitization of information about buildings and civil engineering works",
+      "publisher": "ISO",
+      "year": 2018
+    },
+    {
+      "sourceId": "dora-2019",
+      "title": "Accelerate State of DevOps Report",
+      "publisher": "DORA",
+      "year": 2019
+    }
+  ]
+}
